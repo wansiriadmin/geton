@@ -5,8 +5,8 @@ export default {
     extend: {
       colors: {
         brand: {
-          yellow: '#FFD500',
-          'yellow-hover': '#FFCB05',
+          yellow: '#F5C518',
+          'yellow-hover': '#E0B20E',
           dark: '#1E2128',
           'dark-soft': '#2A2E36',
         },
