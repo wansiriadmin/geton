@@ -6,7 +6,6 @@ urlSlug: "contact"
 ## ข้อมูลติดต่อ
 
 **โทรศัพท์:** 089 6777977
-**อีเมล:** info@geton.co.th
 **LINE Official:** https://page.line.me/geton
 **Facebook:** https://www.facebook.com/GetOnRollers/
 
