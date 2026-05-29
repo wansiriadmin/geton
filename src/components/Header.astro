@@ -1,0 +1,112 @@
+---
+const pathname = Astro.url.pathname;
+const isActive = (path: string) =>
+  path === '/' ? pathname === '/' : pathname.startsWith(path);
+
+const nav = [
+  { href: '/', label: 'หน้าแรก' },
+  { href: '/about', label: 'เกี่ยวกับเรา' },
+  { href: '/products', label: 'ผลิตภัณฑ์' },
+  { href: '/contact', label: 'ติดต่อ' },
+];
+---
+
+<header class="sticky top-0 z-40 bg-white border-b-4 border-brand-yellow">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center shrink-0">
+        <img
+          src="/images/brand/geton-logo.png"
+          alt="GET ON Rollers"
+          class="h-12 w-auto"
+          width="160"
+          height="48"
+        />
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            class={`relative font-medium text-brand-dark hover:text-brand-yellow-hover transition-colors py-2 ${
+              isActive(item.href)
+                ? 'after:absolute after:left-0 after:bottom-0 after:h-1 after:w-full after:bg-brand-yellow'
+                : ''
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Social (desktop) -->
+      <div class="hidden md:flex items-center gap-3">
+        <a
+          href="https://www.facebook.com/GetOnRollers/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Facebook"
+          class="w-10 h-10 rounded-full bg-brand-dark text-white flex items-center justify-center hover:bg-brand-yellow hover:text-brand-dark transition-colors"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7.898v-2.89h2.54V9.797c0-2.507 1.493-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+          </svg>
+        </a>
+        <a
+          href="https://page.line.me/geton"
+          target="_blank"
+          rel="noopener"
+          aria-label="LINE"
+          class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63h-1.755v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63h-1.755v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        id="menu-toggle"
+        class="md:hidden w-10 h-10 flex items-center justify-center text-brand-dark"
+        aria-label="เปิดเมนู"
+        aria-expanded="false"
+      >
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <nav id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+    <div class="px-4 py-2 flex flex-col">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class={`py-3 font-medium border-b border-gray-100 ${
+            isActive(item.href) ? 'text-brand-yellow-hover' : 'text-brand-dark'
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+      <div class="flex items-center gap-3 py-4">
+        <a href="https://www.facebook.com/GetOnRollers/" target="_blank" rel="noopener" class="text-brand-dark font-medium">Facebook</a>
+        <a href="https://page.line.me/geton" target="_blank" rel="noopener" class="text-green-600 font-medium">LINE</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>

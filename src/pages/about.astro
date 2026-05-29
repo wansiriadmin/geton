@@ -1,0 +1,93 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+const entry = await getEntry('pages', 'about');
+if (!entry) throw new Error('about page content missing');
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={`${entry.data.title} — GET ON Rollers`}>
+  <!-- Yellow strip header -->
+  <div class="yellow-strip">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-baseline justify-between gap-2">
+      <h1 class="text-2xl md:text-3xl font-black">เกี่ยวกับเรา</h1>
+      <nav class="text-sm font-medium">
+        <a href="/" class="hover:underline">หน้าแรก</a>
+        <span class="mx-2">/</span>
+        <span>GET ON</span>
+        <span class="mx-2">/</span>
+        <span class="font-bold">เกี่ยวกับเรา</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="bg-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-20 grid gap-12 md:grid-cols-2 items-center">
+      <div>
+        <h2 class="text-3xl md:text-5xl font-black leading-tight">
+          คุณภาพของ <span class="text-brand-yellow">GET ON</span><br />
+          คือสิ่งสำคัญ
+        </h2>
+        <p class="mt-6 text-gray-300 text-lg leading-relaxed">
+          ผู้ผลิตและจัดจำหน่าย ล้อบานเลื่อน ล้อรางแขวนและอุปกรณ์
+          ภายใต้เครื่องหมายการค้าจดทะเบียน "Get On" มากว่า 50 ปี
+          มุ่งมั่นผลิตสินค้าคุณภาพระดับแนวหน้าให้กับช่างฝีมือทั่วประเทศ
+        </p>
+        <a
+          href="https://page.line.me/geton"
+          target="_blank"
+          rel="noopener"
+          class="btn-yellow mt-8"
+        >
+          มาเป็นลูกค้า เก็ตออน
+        </a>
+      </div>
+      <div class="yellow-frame">
+        <img
+          src={entry.data.heroImage ?? '/images/about/about-hero.png'}
+          alt="GET ON ล้อบานเลื่อน ของแท้"
+          width="640"
+          height="480"
+          class="w-full h-auto"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="bg-brand-dark border-t border-brand-dark-soft">
+    <div class="max-w-3xl mx-auto px-4 md:px-8 py-20">
+      <div class="prose-geton">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-brand-yellow text-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 text-center">
+      <h2 class="text-3xl md:text-5xl font-black">พร้อมเป็นคู่ค้ากับเรา?</h2>
+      <p class="mt-4 text-lg font-medium">สอบถามผลิตภัณฑ์และราคาได้ทุกวันทำการ</p>
+      <a href="tel:0896777977" class="inline-block mt-8 bg-brand-dark text-white px-8 py-3 font-bold uppercase tracking-wide hover:bg-brand-dark-soft transition-colors">
+        โทร 089 6777977
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .prose-geton { color: #d1d5db; line-height: 1.85; }
+  .prose-geton h2 {
+    color: #FFD500;
+    font-weight: 800;
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose-geton h2:first-child { margin-top: 0; }
+  .prose-geton p { margin-bottom: 1.25rem; }
+  .prose-geton strong { color: #FFD500; font-weight: 700; }
+  .prose-geton a { color: #FFD500; text-decoration: underline; }
+</style>

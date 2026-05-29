@@ -1,0 +1,139 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SkillBar from '~/components/SkillBar.astro';
+import ProductCard from '~/components/ProductCard.astro';
+
+export const getStaticPaths = (async () => {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.data.urlSlug },
+    props: { product },
+  }));
+}) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+
+const all = (await getCollection('products')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const related = all
+  .filter((p) => p.data.urlSlug !== product.data.urlSlug)
+  .slice(0, 3);
+
+const d = product.data;
+---
+
+<BaseLayout title={`${d.title} — GET ON Rollers`} description={d.tagline} image={d.image}>
+  <!-- Yellow strip header -->
+  <div class="yellow-strip">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-baseline justify-between gap-2">
+      <h1 class="text-xl md:text-2xl font-black">{d.title}</h1>
+      <nav class="text-sm font-medium">
+        <a href="/" class="hover:underline">หน้าแรก</a>
+        <span class="mx-2">/</span>
+        <a href="/products" class="hover:underline">ผลิตภัณฑ์</a>
+        <span class="mx-2">/</span>
+        <span class="font-bold">{d.title}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Detail -->
+  <section class="bg-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 grid gap-12 md:grid-cols-2 items-start">
+      <div class="yellow-frame w-full">
+        <div class="bg-brand-dark-soft p-8">
+          <img
+            src={d.image}
+            alt={d.imageAlt}
+            width="640"
+            height="640"
+            class="w-full h-auto object-contain"
+          />
+        </div>
+      </div>
+      <div>
+        <span class="inline-block bg-brand-yellow text-brand-dark text-sm font-bold px-3 py-1 uppercase tracking-wide mb-4">
+          {d.label}
+        </span>
+        <h2 class="text-3xl md:text-4xl font-black leading-tight">{d.title}</h2>
+        <p class="mt-2 italic text-brand-yellow">{d.productCode}</p>
+        <div class="prose-geton mt-6">
+          <Content />
+        </div>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="https://page.line.me/geton"
+            target="_blank"
+            rel="noopener"
+            class="inline-block bg-green-500 text-white px-8 py-3 font-bold uppercase tracking-wide hover:bg-green-600 transition-colors"
+          >
+            สั่งซื้อผ่าน LINE
+          </a>
+          <a href="tel:0896777977" class="btn-outline">โทร 089 6777977</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Applications + suitability -->
+  <section class="bg-white text-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 grid gap-12 md:grid-cols-2 items-start">
+      <div>
+        <h3 class="text-2xl md:text-3xl font-black mb-6">สำหรับงานติดตั้ง</h3>
+        <ul class="space-y-4">
+          {d.applications.map((app) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 shrink-0 w-6 h-6 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center font-bold">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </span>
+              <span class="text-gray-700 text-lg">{app}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-8 border-l-4 border-brand-yellow bg-yellow-50 p-5">
+          <p class="font-bold text-brand-dark">
+            ⚠️ ระวังสินค้าลอกเลียนแบบ — โปรดสังเกตโลโก้ "Get On" ทุกครั้ง
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-brand-dark text-white p-8">
+        <h3 class="text-2xl font-black mb-6">เหมาะกับงานประเภทใดบ้าง</h3>
+        <div class="space-y-5">
+          {d.suitability.map((s) => (
+            <SkillBar label={s.label} percent={s.percent} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <section class="bg-gray-50 text-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16">
+      <h3 class="text-2xl md:text-3xl font-black mb-8">ผลิตภัณฑ์อื่นๆ</h3>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {related.map((p) => (
+          <ProductCard
+            title={p.data.title}
+            urlSlug={p.data.urlSlug}
+            image={p.data.image}
+            imageAlt={p.data.imageAlt}
+            tagline={p.data.tagline}
+            label={p.data.label}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .prose-geton { color: #d1d5db; line-height: 1.85; }
+  .prose-geton p { margin-bottom: 1rem; }
+  .prose-geton strong { color: #FFD500; font-weight: 700; }
+</style>

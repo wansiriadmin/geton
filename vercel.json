@@ -1,0 +1,12 @@
+{
+  "redirects": [
+    { "source": "/services/:slug*", "destination": "/products", "permanent": true },
+    { "source": "/sample-page/about/:path*", "destination": "/about", "permanent": true },
+    { "source": "/sample-page/:path*", "destination": "/about", "permanent": true },
+    { "source": "/contacts/:path*", "destination": "/contact", "permanent": true },
+    { "source": "/blog/:path*", "destination": "/", "permanent": true },
+    { "source": "/author/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-admin/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-content/:path*", "destination": "/", "permanent": true }
+  ]
+}

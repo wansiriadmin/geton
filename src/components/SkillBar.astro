@@ -1,0 +1,41 @@
+---
+interface Props {
+  label: string;
+  percent: number;
+}
+
+const { label, percent } = Astro.props;
+---
+
+<div class="skill-bar" data-percent={percent}>
+  <div class="flex justify-between items-center mb-1">
+    <span class="text-sm text-gray-200">{label}</span>
+    <span class="text-sm font-bold text-brand-yellow">{percent}%</span>
+  </div>
+  <div class="h-2.5 w-full bg-brand-dark-soft rounded-full overflow-hidden">
+    <div
+      class="skill-bar-fill h-full bg-brand-yellow rounded-full"
+      style="width: 0%"
+    >
+    </div>
+  </div>
+</div>
+
+<script>
+  const bars = document.querySelectorAll<HTMLElement>('.skill-bar');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const fill = el.querySelector<HTMLElement>('.skill-bar-fill');
+          const percent = el.dataset.percent ?? '0';
+          if (fill) fill.style.width = `${percent}%`;
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.3 },
+  );
+  bars.forEach((bar) => observer.observe(bar));
+</script>

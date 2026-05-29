@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+
+const products = (await getCollection('products')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const footerProducts = products.slice(0, 5);
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-dark text-white border-t-4 border-brand-yellow">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-14">
+    <div class="grid gap-10 md:grid-cols-3">
+      <!-- Products -->
+      <div>
+        <h3 class="text-brand-yellow font-extrabold text-lg uppercase tracking-wide mb-5">
+          ผลิตภัณฑ์เก็ตออน
+        </h3>
+        <ul class="space-y-3 text-gray-300">
+          {footerProducts.map((p) => (
+            <li>
+              <a
+                href={`/products/${p.data.urlSlug}`}
+                class="hover:text-brand-yellow transition-colors"
+              >
+                {p.data.title}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="/products" class="text-brand-yellow font-medium hover:underline">
+              ดูทั้งหมด →
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-brand-yellow font-extrabold text-lg uppercase tracking-wide mb-5">
+          ติดต่อสอบถาม
+        </h3>
+        <ul class="space-y-3 text-gray-300">
+          <li>
+            <a href="tel:0896777977" class="hover:text-brand-yellow transition-colors">
+              โทร. 089 6777977
+            </a>
+          </li>
+          <li>
+            <a href="mailto:info@geton.co.th" class="hover:text-brand-yellow transition-colors">
+              info@geton.co.th
+            </a>
+          </li>
+          <li>
+            <a href="https://page.line.me/geton" target="_blank" rel="noopener" class="hover:text-brand-yellow transition-colors">
+              LINE: @geton
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/GetOnRollers/" target="_blank" rel="noopener" class="hover:text-brand-yellow transition-colors">
+              Facebook: GetOnRollers
+            </a>
+          </li>
+          <li class="text-gray-400 pt-2">
+            ถนนสุรวงศ์ เขตบางรัก<br />กรุงเทพมหานคร
+          </li>
+        </ul>
+      </div>
+
+      <!-- Hours -->
+      <div>
+        <h3 class="text-brand-yellow font-extrabold text-lg uppercase tracking-wide mb-5">
+          เวลาทำการ
+        </h3>
+        <ul class="space-y-3 text-gray-300">
+          <li>จันทร์ - ศุกร์: 8:00 - 18:00 น.</li>
+          <li>เสาร์: 9:00 - 16:00 น.</li>
+          <li>อาทิตย์ / วันหยุด: ปิดทำการ</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-brand-dark-soft flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-400">
+      <p>© {year} GET ON Rollers. สงวนลิขสิทธิ์.</p>
+      <p>
+        Dev. by
+        <a href="https://chaivoot.com" target="_blank" rel="noopener" class="text-brand-yellow hover:underline">
+          chaivoot
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>

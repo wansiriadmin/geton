@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ProductCard from '~/components/ProductCard.astro';
+
+const products = (await getCollection('products')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const testimonials = [
+  {
+    name: 'เฮียบุ๊ง รัชดา',
+    quote:
+      'เคยคิดว่า ล้อบานเลื่อน ในตลาดก็คงเหมือนๆ กัน เลยตัดสินใจซื้อยี่ห้ออื่น หรือของเลียนแบบมาใช้ ถึงได้รู้ว่า คุณภาพของ ล้อบานเลื่อน เก็ตออน คือที่ 1 ในตลาด ไม่คิดนอกใจอีกแล้วครับ',
+  },
+  {
+    name: 'คุณละม่อม',
+    quote:
+      'บริษัทผมเติบโต และมีผู้สนับสนุน เพราะผมเลือกใช้วัสดุคุณภาพ ให้ลูกค้าตลอด ถ้าพูดถึงล้อบานเลื่อน หรือล้อรางแขวน ที่ผมเลือกให้ลูกค้า ผมไม่มองหายี่ห้ออื่นเลย ต้องติดโลโก้ Get On เท่านั้น',
+  },
+  {
+    name: 'เจ๊มอลลี่ ท่าเรือ',
+    quote:
+      'เราขายล้อบานเลื่อน ล้อรางแขวน ของเก็ตออน มาหลายสิบปี ได้พูดคุยกับช่างมิเนียมมากมาย ทุกคนต่างก็ยอมรับในคุณภาพของ Get On ว่าเป็นที่ 1 ในตลาด',
+  },
+];
+---
+
+<BaseLayout title="GET ON Rollers — ล้อบานเลื่อน ล้อรางแขวน ของแท้ 100%">
+  <!-- Hero -->
+  <section class="relative bg-brand-dark overflow-hidden">
+    <img
+      src="/images/brand/geton-slider01.png"
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 w-full h-full object-cover opacity-30"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-brand-dark/40"></div>
+    <div class="relative max-w-7xl mx-auto px-4 md:px-8 py-28 md:py-40">
+      <p class="text-brand-yellow font-bold uppercase tracking-[0.3em] mb-4">
+        GET ON Rollers
+      </p>
+      <h1 class="text-4xl md:text-7xl font-black leading-tight max-w-3xl">
+        ล้อบานเลื่อน <span class="text-brand-yellow">คุณภาพ</span><br />
+        ของแท้ 100%
+      </h1>
+      <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-xl">
+        ผู้ผลิตและจัดจำหน่าย ล้อบานเลื่อน ล้อรางแขวนและอุปกรณ์
+        ภายใต้เครื่องหมายการค้า "Get On" มากว่า 50 ปี
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="/products" class="btn-yellow">ดูผลิตภัณฑ์</a>
+        <a href="tel:0896777977" class="btn-outline">โทร 089 6777977</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality statement -->
+  <section class="bg-white text-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-20 grid gap-12 md:grid-cols-2 items-center">
+      <div class="yellow-frame">
+        <img
+          src="/images/about/about-hero.png"
+          alt="GET ON ล้อบานเลื่อน ของแท้"
+          width="640"
+          height="480"
+          class="w-full h-auto"
+        />
+      </div>
+      <div>
+        <h2 class="text-3xl md:text-5xl font-black leading-tight">
+          GET ON ล้อบานเลื่อน<br />
+          <span class="text-brand-yellow-hover">ของแท้ 100%</span>
+        </h2>
+        <p class="mt-6 text-gray-600 text-lg leading-relaxed">
+          เราคือผู้ผลิตและจัดจำหน่าย ล้อบานเลื่อน ล้อรางแขวนและอุปกรณ์
+          ภายใต้เครื่องหมายการค้าจดทะเบียน "Get On"
+          ที่ได้รับความไว้วางใจจากลูกค้ามาหลายทศวรรษ
+        </p>
+        <blockquote class="mt-8 border-l-4 border-brand-yellow pl-5 text-xl font-bold">
+          "ล้อบานเลื่อนของแท้ ต้องติดยี่ห้อ Get On เท่านั้น"
+        </blockquote>
+        <a href="tel:0896777977" class="btn-yellow mt-8">โทรสอบถาม 089 6777977</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products grid -->
+  <section class="bg-gray-50 text-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-20">
+      <div class="text-center mb-12">
+        <p class="text-brand-yellow-hover font-bold uppercase tracking-[0.3em] mb-2">
+          Our Products
+        </p>
+        <h2 class="text-3xl md:text-5xl font-black">Rollers &amp; Bearings</h2>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((p) => (
+          <ProductCard
+            title={p.data.title}
+            urlSlug={p.data.urlSlug}
+            image={p.data.image}
+            imageAlt={p.data.imageAlt}
+            tagline={p.data.tagline}
+            label={p.data.label}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="bg-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-20">
+      <div class="text-center mb-12">
+        <p class="text-brand-yellow font-bold uppercase tracking-[0.3em] mb-2">
+          Testimonials
+        </p>
+        <h2 class="text-3xl md:text-5xl font-black">เสียงจากลูกค้าตัวจริง</h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {testimonials.map((t) => (
+          <figure class="bg-brand-dark-soft border-l-4 border-brand-yellow p-7">
+            <blockquote class="text-gray-300 leading-relaxed">"{t.quote}"</blockquote>
+            <figcaption class="mt-5 font-bold text-brand-yellow">{t.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="bg-brand-yellow text-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 text-center">
+      <h2 class="text-3xl md:text-5xl font-black">สนใจสอบถาม หรือสั่งซื้อ?</h2>
+      <p class="mt-4 text-lg font-medium">ทีมงานเก็ตออนพร้อมให้คำปรึกษา</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a
+          href="https://page.line.me/geton"
+          target="_blank"
+          rel="noopener"
+          class="inline-block bg-green-500 text-white px-8 py-3 font-bold uppercase tracking-wide hover:bg-green-600 transition-colors"
+        >
+          แอดไลน์ @geton
+        </a>
+        <a
+          href="tel:0896777977"
+          class="inline-block bg-brand-dark text-white px-8 py-3 font-bold uppercase tracking-wide hover:bg-brand-dark-soft transition-colors"
+        >
+          โทร 089 6777977
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  urlSlug: string;
+  image: string;
+  imageAlt: string;
+  tagline: string;
+  label: string;
+}
+
+const { title, urlSlug, image, imageAlt, tagline, label } = Astro.props;
+---
+
+<a
+  href={`/products/${urlSlug}`}
+  class="group block bg-white border-2 border-transparent hover:border-brand-yellow transition-colors overflow-hidden"
+>
+  <div class="relative aspect-square bg-brand-dark overflow-hidden">
+    <span class="absolute top-3 left-3 z-10 bg-brand-yellow text-brand-dark text-xs font-bold px-3 py-1 uppercase tracking-wide">
+      {label}
+    </span>
+    <img
+      src={image}
+      alt={imageAlt}
+      loading="lazy"
+      width="600"
+      height="600"
+      class="w-full h-full object-contain p-6 transition-transform duration-300 group-hover:scale-110"
+    />
+  </div>
+  <div class="p-5">
+    <p class="text-brand-yellow-hover text-xs font-bold uppercase tracking-widest mb-1">
+      Industry
+    </p>
+    <h3 class="text-brand-dark font-bold text-xl leading-snug mb-2">{title}</h3>
+    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{tagline}</p>
+    <span class="text-brand-dark font-bold group-hover:text-brand-yellow-hover transition-colors">
+      Read more →
+    </span>
+  </div>
+</a>
